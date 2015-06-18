@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:provenance="http://www.openarchives.org/OAI/2.0/provenance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <responseDate>2015-06-17T12:50:35Z</responseDate>
+    <request verb="ListRecords" resumptionToken="from%3D2015-04-01T00%253A00%253A00Z%26metadataPrefix%3Doai_dc%26offset%3D26286%26until%3D2015-05-01T00%253A00%253A00Z">http://oa.upm.es/cgi/oai2</request>
+    <ListRecords>
+        <record>
+            <header>
+                <identifier>oai:oa.upm.es:26833</identifier>
+                <datestamp>2015-04-01T22:56:05Z</datestamp>
+                <setSpec>7374617475733D707562</setSpec>
+                <setSpec>7375626A656374733D74656C65636F6D756E69636163696F6E6573</setSpec>
+                <setSpec>7375626A656374733D656C656374726F6E696361</setSpec>
+                <setSpec>747970653D61727469636C65</setSpec>
+            </header>
+            <metadata>
+                <dc>
+                    <dc:title>Virtual-bound, filamentary and layered states in a box-shaped quantum dot of square potential form the exact numerical solution of the effective mass Schrodinger equation</dc:title>
+                    <dc:creator>Luque López, Antonio</dc:creator>
+                    <dc:creator>Mellor Null, Alexander Virgil</dc:creator>
+                    <dc:creator>Tobías Galicia, Ignacio</dc:creator>
+                    <dc:creator>Antolín Fernández, Elisa</dc:creator>
+                    <dc:creator>García-Linares Fontes, Pablo</dc:creator>
+                    <dc:creator>Ramiro Gonzalez, Iñigo</dc:creator>
+                    <dc:creator>Martí Vega, Antonio</dc:creator>
+                    <dc:subject>Telecomunicaciones</dc:subject>
+                    <dc:subject>Electrónica</dc:subject>
+                    <dc:description>The effective mass Schrodinger equation of a QD of parallelepipedic shape with a square potential well is solved by diagonalizing the exact Hamiltonian matrix developed in a basis of separation-of-variables wavefunctions. The expected below bandgap bound states are found not to differ very much from the former approximate calculations. In addition, the presence of bound states within the conduction band is confirmed. Furthermore, filamentary states bounded in two dimensions and extended in one dimension and layered states with only one dimension bounded, all within the conduction band which are similar to those originated in quantum wires and quantum wells coexist with the ordinary continuum spectrum of plane waves. All these subtleties are absent in spherically shaped quantum dots, often used for modeling.</dc:description>
+                    <dc:publisher>E.T.S.I. Telecomunicación (UPM)</dc:publisher>
+                    <dc:rights>http://creativecommons.org/licenses/by-nc-nd/3.0/es/</dc:rights>
+                    <dc:date>2013-03</dc:date>
+                    <dc:type>info:eu-repo/semantics/article</dc:type>
+                    <dc:type>Artículo</dc:type>
+                    <dc:source>Physica B: Condensed Matter, ISSN 0921-4526, 2013-03, Vol. 413, N. </dc:source>
+                    <dc:type>PeerReviewed</dc:type>
+                    <dc:format>application/pdf</dc:format>
+                    <dc:language>eng</dc:language>
+                    <dc:relation>http://oa.upm.es/26833/1/INVE_MEM_2013_165687.pdf</dc:relation>
+                    <dc:relation>http://www.sciencedirect.com/science/article/pii/S0921452612010988</dc:relation>
+                    <dc:relation>info:eu-repo/semantics/altIdentifier/doi/http://dx.doi.org/10.1016/j.physb.2012.12.047</dc:relation>
+                    <dc:identifier>http://oa.upm.es/26833/</dc:identifier>
+                </dc>
+            </metadata>
+        </record>
+    </ListRecords>
+</OAI-PMH>
