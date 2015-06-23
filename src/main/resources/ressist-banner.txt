@@ -1,1 +1,16 @@
-Sample Application
+
+                  , _ ,
+                 ( o o )        ____  ____  ____  ____   __   ____  ____
+                /'` ' `'\      (  _ \(  __)/ ___)/ ___) (  ) / ___)(_  _)
+                |'''''''|       )   / ) _) \___ \\___ \  )(  \___ \  )(
+                |\\'''//|      (__\_)(____)(____/(____/ (__) (____/ (__)
+                   """
+                                ${application.formatted-version}
+                               Ontology Engineering Group
+                           Universidad Politecnica de Madrid
+                         Carlos Badenes:     cbadenes@fi.upm.es
+                         Rafael Gonzalez:    rgonza@fi.upm.es
+                         Oscar Corcho:       ocorcho@fi.upm.es
+
+
+

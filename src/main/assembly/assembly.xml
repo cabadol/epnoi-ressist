@@ -15,16 +15,16 @@
     <fileSets>
         <fileSet>
             <fileMode />
+            <directory>src/test/resources/json</directory>
+            <outputDirectory>researchObjects/sample</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <fileMode />
             <directory>${assemble.directory}</directory>
             <outputDirectory></outputDirectory>
             <excludes>
                 <exclude>bin/**</exclude>
             </excludes>
-        </fileSet>
-        <fileSet>
-            <fileMode />
-            <directory>src/main/groovy</directory>
-            <outputDirectory>config/</outputDirectory>
         </fileSet>
         <fileSet>
             <fileMode>0744</fileMode>

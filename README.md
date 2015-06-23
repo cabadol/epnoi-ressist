@@ -1,2 +1,12 @@
 # epnoi-ressist
 Research Object-based Recommender System
+
+# Download
+
+Download the binary distribution:
+
+| Version | Link |
+| :------- |:-----|
+| 0.0.1    | [tar.gz](http://github.com/cbadenes/epnoi-ressist/raw/mvn-repo/es/upm/oeg/epnoi/epnoi-ressist/0.0.1/epnoi-ressist-0.0.1.tar.gz)|
+
+This work is funded by the EC-funded project DrInventor ([www.drinventor.eu](www.drinventor.eu)).
