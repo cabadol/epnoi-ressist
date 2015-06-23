@@ -212,7 +212,7 @@
                     <branch>refs/heads/mvn-repo</branch>
                     <includes><include>**/*</include></includes>
                     <merge>true</merge>
-                    <repositoryName>epnoi-hoarder</repositoryName>
+                    <repositoryName>epnoi-ressist</repositoryName>
                     <repositoryOwner>cbadenes</repositoryOwner>
                     <server>github</server>
                 </configuration>
