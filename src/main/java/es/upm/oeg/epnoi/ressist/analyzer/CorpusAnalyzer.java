@@ -174,22 +174,22 @@ public class CorpusAnalyzer {
 
         // List of topics
 
-        List<Tuple2<Object, Vector>> listOfTopics = topicsSpace.model().ldaModel().topicDistributions().toJavaRDD().collect();
-
-        for (Tuple2<Object, Vector> tuple: listOfTopics){
-
-            double[] words = Arrays.copyOfRange(tuple._2().toArray(), 0, 10);
-
-            StringBuilder topicDesc = new StringBuilder();
-
-            topicDesc.append("Topic '").append(tuple._1()).append("': ");
-
-            conceptsSpace.vocabulary().
-
-
-
-            log.info(topicDesc.toString());
-        }
+//        List<Tuple2<Object, Vector>> listOfTopics = topicsSpace.model().ldaModel().topicDistributions().toJavaRDD().collect();
+//
+//        for (Tuple2<Object, Vector> tuple: listOfTopics){
+//
+//            double[] words = Arrays.copyOfRange(tuple._2().toArray(), 0, 10);
+//
+//            StringBuilder topicDesc = new StringBuilder();
+//
+//            topicDesc.append("Topic '").append(tuple._1()).append("': ");
+//
+//            conceptsSpace.vocabulary().
+//
+//
+//
+//            log.info(topicDesc.toString());
+//        }
 
 
     }
