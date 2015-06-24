@@ -24,7 +24,7 @@
         <mavenjar.version>2.5</mavenjar.version>
         <mavendependency.version>2.5.1</mavendependency.version>
         <mavensource.version>2.4</mavensource.version>
-        <metrics.version>0.0.2</metrics.version>
+        <metrics.version>0.0.3-SNAPSHOT</metrics.version>
         <harvester.version>1.0.5</harvester.version>
         <spring.version>4.1.4.RELEASE</spring.version>
         <springboot.version>1.2.1.RELEASE</springboot.version>
@@ -112,7 +112,7 @@
                                     </platforms>
                                     <jvmSettings>
                                         <initialMemorySize>1024M</initialMemorySize>
-                                        <maxMemorySize>1024M</maxMemorySize>
+                                        <maxMemorySize>4096M</maxMemorySize>
                                         <maxStackSize>512K</maxStackSize>
                                         <systemProperties>
                                             <systemProperty>app.name=${app.name}</systemProperty>

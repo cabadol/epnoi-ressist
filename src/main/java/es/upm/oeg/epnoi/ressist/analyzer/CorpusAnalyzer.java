@@ -13,10 +13,12 @@ import es.upm.oeg.epnoi.ressist.parser.ROPair;
 import es.upm.oeg.epnoi.ressist.parser.ROParser;
 import es.upm.oeg.epnoi.ressist.parser.RRParser;
 import org.apache.commons.collections.buffer.PriorityBuffer;
+import org.apache.commons.lang.StringUtils;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.rdd.RDD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,10 +31,7 @@ import scala.collection.Iterable;
 import scala.collection.JavaConverters;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by cbadenes on 22/06/15.
@@ -51,6 +50,12 @@ public class CorpusAnalyzer {
 
     @Value("${lda.topics}")
     protected Integer ldaTopics;
+
+    @Value("${lda.alpha}")
+    protected Double ldaAlpha;
+
+    @Value("${lda.beta}")
+    protected Double ldaBeta;
 
     @Value("${ro.directory}")
     protected String inputDir;
@@ -115,6 +120,8 @@ public class CorpusAnalyzer {
             // Manual Configuration
             LDASettings.setMaxIterations(ldaMaxIterations);
             LDASettings.setTopics(ldaTopics);
+            LDASettings.setAlpha(ldaAlpha);
+            LDASettings.setBeta(ldaBeta);
         }
 
         // Create the Topics Space
@@ -156,12 +163,34 @@ public class CorpusAnalyzer {
             while(!buffer.isEmpty()){
                 Tuple3<TopicalResource, TopicalResource, Object> tuple3 = (Tuple3<TopicalResource, TopicalResource, Object>) buffer.remove();
                 similarityDescription.append("\t ").append(tuple3._3()).append("\t").
-                        append(roPairs.get(tuple3._2().conceptualResource().resource().uri())).append("\n");
+                        append("[").append(StringUtils.substringBefore(StringUtils.substringAfterLast(tuple3._2().conceptualResource().resource().url(),"oaipmh/"),"/")).append("]").
+                        append(tuple3._2().conceptualResource().resource().metadata().title().replace("\n"," ")).append("\n");
             }
 
 
             log.info(similarityDescription.toString());
         }
+
+
+        // List of topics
+
+        List<Tuple2<Object, Vector>> listOfTopics = topicsSpace.model().ldaModel().topicDistributions().toJavaRDD().collect();
+
+        for (Tuple2<Object, Vector> tuple: listOfTopics){
+
+            double[] words = Arrays.copyOfRange(tuple._2().toArray(), 0, 10);
+
+            StringBuilder topicDesc = new StringBuilder();
+
+            topicDesc.append("Topic '").append(tuple._1()).append("': ");
+
+            conceptsSpace.vocabulary().
+
+
+
+            log.info(topicDesc.toString());
+        }
+
 
     }
 

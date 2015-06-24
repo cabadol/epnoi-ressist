@@ -41,12 +41,7 @@ public class RRParser implements Function<ResearchObject, RegularResource> {
         }
 
         Buffer<Author> authors = JavaConverters.asScalaBufferConverter(authorsList).asScala();
-
-
         Metadata metadata = new Metadata(title, published,authors);
-
-
-
         RegularResource regularResource = new RegularResource(uri,url,metadata,bagOfWords,innerResources);
 
         return regularResource;
