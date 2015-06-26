@@ -6,6 +6,7 @@ import es.upm.oeg.epnoi.matching.metrics.domain.entity.RegularResource;
 import es.upm.oeg.epnoi.matching.metrics.domain.entity.TopicalResource;
 import es.upm.oeg.epnoi.matching.metrics.domain.space.ConceptsSpace;
 import es.upm.oeg.epnoi.matching.metrics.domain.space.TopicsSpace;
+import es.upm.oeg.epnoi.matching.metrics.similarity.SimilarityMatrix;
 import es.upm.oeg.epnoi.matching.metrics.topics.LDASettings;
 import es.upm.oeg.epnoi.ressist.comparator.SimilarityComparator;
 import es.upm.oeg.epnoi.ressist.parser.CRParser;
@@ -25,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import scala.Option;
 import scala.Tuple2;
 import scala.Tuple3;
 import scala.collection.Iterable;
@@ -124,6 +126,10 @@ public class CorpusAnalyzer {
             LDASettings.setBeta(ldaBeta);
         }
 
+        // ro-graph
+        StringBuilder graph = new StringBuilder();
+        graph.append("\n").append("N1 N2\n");
+
         // Create the Topics Space
         TopicsSpace topicsSpace = new TopicsSpace(conceptsSpace);
 
@@ -131,11 +137,15 @@ public class CorpusAnalyzer {
         RDD<TopicalResource> topicalResources = topicsSpace.topicalResources();
 
         // Create the similarity matrix
-        RDD<Tuple2<TopicalResource, Iterable<Tuple3<TopicalResource, TopicalResource, Object>>>> similarityMatrixRDD = topicsSpace.cross(topicalResources);
+//        RDD<Tuple2<TopicalResource, Iterable<Tuple3<TopicalResource, TopicalResource, Object>>>> similarityMatrixRDD = topicsSpace.cross(topicalResources);
+
+        RDD<Tuple2<TopicalResource, Iterable<Tuple3<TopicalResource, TopicalResource, Object>>>> similarityMatrixRDD = SimilarityMatrix.apply(topicalResources);
 
         List<Tuple2<TopicalResource, Iterable<Tuple3<TopicalResource, TopicalResource, Object>>>> similarityMatrix = similarityMatrixRDD.toJavaRDD().collect();
 
         log.info("Conceptual Resources: " + conceptualResources.count() + ", Matrix Size: " + similarityMatrix.size());
+
+        Map<String,Long> record = new HashMap<String,Long>();
 
         // [Temporal] Only to print similarity. Do not use 'collect' for production mode
         for(Tuple2<TopicalResource, Iterable<Tuple3<TopicalResource, TopicalResource, Object>>> tuple: similarityMatrix){
@@ -160,11 +170,37 @@ public class CorpusAnalyzer {
 //                        append(roPairs.get(tuple3._2().conceptualResource().resource().uri())).append("\n");
             }
 
+
+
             while(!buffer.isEmpty()){
                 Tuple3<TopicalResource, TopicalResource, Object> tuple3 = (Tuple3<TopicalResource, TopicalResource, Object>) buffer.remove();
-                similarityDescription.append("\t ").append(tuple3._3()).append("\t").
-                        append("[").append(StringUtils.substringBefore(StringUtils.substringAfterLast(tuple3._2().conceptualResource().resource().url(),"oaipmh/"),"/")).append("]").
-                        append(tuple3._2().conceptualResource().resource().metadata().title().replace("\n"," ")).append("\n");
+                Double similarity = (Double) tuple3._3();
+
+                String sourceNode = StringUtils.substringAfterLast(tuple3._1().conceptualResource().resource().uri(),"/");
+                String sourceType = StringUtils.substringBefore(StringUtils.substringAfterLast(tuple3._1().conceptualResource().resource().url(),"oaipmh/"),"/");
+                String targetNode = StringUtils.substringAfterLast(tuple3._2().conceptualResource().resource().uri(),"/");
+                String targetType = StringUtils.substringBefore(StringUtils.substringAfterLast(tuple3._2().conceptualResource().resource().url(), "oaipmh/"), "/");
+                String targetTitle = tuple3._2().conceptualResource().resource().metadata().title().replace("\n"," ");
+
+                if (similarity > 0.5 && similarity < 1.0){
+                    // Add to ro-graph
+
+                    String key1 = sourceNode+"-"+targetNode;
+                    String key2 = targetNode+"-"+sourceNode;
+                    Boolean validation = !record.containsKey(key1) && !record.containsKey(key2);
+                    if (validation){
+                        graph.append(sourceNode).append(" ").append(sourceType).append(" ").append(targetNode).append(" ").append(targetType).append(" ").append(similarity).append("\n");
+                        record.put(key1, 1L);
+                        record.put(key2, 1L);
+                    }
+
+
+                }
+
+
+                similarityDescription.append("\t ").append(similarity).append("\t").
+                        append("[").append(targetType).append("]").append("[").append(targetNode).append("]").
+                        append(targetTitle).append("\n");
             }
 
 
@@ -172,24 +208,53 @@ public class CorpusAnalyzer {
         }
 
 
-        // List of topics
 
-//        List<Tuple2<Object, Vector>> listOfTopics = topicsSpace.model().ldaModel().topicDistributions().toJavaRDD().collect();
-//
-//        for (Tuple2<Object, Vector> tuple: listOfTopics){
-//
-//            double[] words = Arrays.copyOfRange(tuple._2().toArray(), 0, 10);
-//
-//            StringBuilder topicDesc = new StringBuilder();
-//
-//            topicDesc.append("Topic '").append(tuple._1()).append("': ");
-//
-//            conceptsSpace.vocabulary().
-//
-//
-//
-//            log.info(topicDesc.toString());
-//        }
+
+        // Distribution of topics by documents
+
+        Map<Long, ConceptualResource> documents = new HashMap<>();
+
+        for (Tuple2<Object, ConceptualResource> docEl : conceptsSpace.conceptualResourcesMap().toJavaRDD().collect()){
+
+            documents.put((Long) docEl._1(), docEl._2());
+        }
+
+        for (Tuple2<Object, Vector> topicTuple : topicsSpace.model().ldaModel().topicDistributions().toJavaRDD().collect()){
+
+            StringBuilder docDescription = new StringBuilder();
+
+            Long docId = (Long) topicTuple._1();
+
+            String docTitle = documents.get(docId).resource().metadata().title();
+
+            String docSource = StringUtils.substringBefore(StringUtils.substringAfterLast(documents.get(docId).resource().url(), "oaipmh/"), "/");
+
+            docDescription.append("'").append(docTitle).append("'[").append(docSource).append("]: (");
+
+            for (Double dist: topicTuple._2().toArray()){
+                docDescription.append(dist).append(",");
+            }
+            docDescription.append(")");
+
+            log.info(docDescription.toString());
+        }
+
+        // Distribution of words by topics
+        Integer maxWords = 20;
+        Integer topicId = 0;
+        for (Tuple2<int[], double[]> topicDist: topicsSpace.model().ldaModel().describeTopics(maxWords)){
+            StringBuilder topicDescription = new StringBuilder();
+            topicDescription.append("Topic[").append(topicId++).append("]: ");
+            for(int i = 0; i < maxWords; i++){
+                String word = conceptsSpace.vocabulary().wordsByKeyMap().get(topicDist._1()[i]).get();
+                topicDescription.append("'").append(word).append("',");
+            }
+            log.info(topicDescription.toString());
+        }
+
+
+        log.info("Graph: ");
+        log.info(graph.toString());
 
 
     }

@@ -6,7 +6,7 @@
 
     <groupId>es.upm.oeg.epnoi</groupId>
     <artifactId>epnoi-ressist</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 
     <properties>
         <app.name>ressist</app.name>
@@ -24,7 +24,7 @@
         <mavenjar.version>2.5</mavenjar.version>
         <mavendependency.version>2.5.1</mavendependency.version>
         <mavensource.version>2.4</mavensource.version>
-        <metrics.version>0.0.3-SNAPSHOT</metrics.version>
+        <metrics.version>0.0.3</metrics.version>
         <harvester.version>1.0.5</harvester.version>
         <spring.version>4.1.4.RELEASE</spring.version>
         <springboot.version>1.2.1.RELEASE</springboot.version>
