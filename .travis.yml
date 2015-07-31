@@ -1,2 +1,11 @@
+---
 language: java
-mvn clean package
+script: mvn clean package
+jdk:
+- oraclejdk8
+branches:
+  only:
+  - master
+notifications:
+  email:
+  - cbadenes@fi.upm.es 
