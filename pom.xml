@@ -388,7 +388,7 @@
     <repositories>
         <!-- GitHub Epnoi Matching Metrics Repository -->
         <repository>
-            <id>camel-oaipmh-mvn-repo</id>
+            <id>epnoi-matching-metrics-mvn-repo</id>
             <url>https://raw.github.com/cbadenes/epnoi-matching-metrics/mvn-repo/</url>
             <snapshots>
                 <enabled>true</enabled>
@@ -397,8 +397,17 @@
         </repository>
         <!-- GitHub Epnoi Harvester Repository -->
         <repository>
-            <id>camel-euia-mvn-repo</id>
+            <id>epnoi-harvester-mvn-repo</id>
             <url>https://raw.github.com/cbadenes/epnoi-harvester/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <!-- GitHub Camel EUIA Repository -->
+        <repository>
+            <id>camel-euia-mvn-repo</id>
+            <url>https://raw.github.com/cbadenes/camel-euia/mvn-repo/</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
